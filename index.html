@@ -6,7 +6,7 @@
     <title>StreamerStats Brasil - Estatísticas Gerais</title>
     <meta name="description" content="Plataforma de análise do cenário brasileiro da Twitch - Descubra os melhores horários, jogos populares e tendências para crescer na plataforma">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABR0lEQVQ4jZ2TvUoDQRSFv9ndhGQTNYkgaGMhiKKFhYU/hYiVYGsrvoGFT2DnM/gEYmcjgoWFhYVgYSGIGo0aE7Ob7K7FJrubGYNGDwwzc+/5zjn3zgz8s5TvQTqdVuPxeEjXdQxNw/M8PM/D931c18V1XQqFglwoFNhst9krlXgcj8e/FKSU+L6PpmmEQiE0TcNxHGq1GvV6/c1xnLxt28zncjxPJlwlk1EhxLeiQghc10UIged5CCGwLItms0m73f7wPO9pNpvdyuVyD6urKyv+QiaTUaPRKMViEdd1aTQatFotTNOk1+sxHA7xfZ9QKIQsy0/j8fhGKpXaVxQFkVxfQ9d1dF1HURRGoxGDwYBer4dt20gp8TwPwzAIBAKvhmGsm6b5LKSUStM0AoEAQggmkwmWZWFZFp7nIaVESkkwGERVVSzLOsxms7fAO/wRfQIoMqJu8Yx+2QAAAABJRU5ErkJggg==">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABR0lEQVQ4jZ2TvUoDQRSFv9ndhGQTNYkgaGMhiKKFhYU/hYiVYGsrvoGFT2DnM/gEYmcjgoWFhYVgYSGIGo0aE7Ob7K7FJrubGYNGDwwzc+/5zjn3zgz8s5TvQTqdVuPxeEjXdQxNw/M8PM/D931c18V1XQqFglwoFNhst9krlXgcj8e/FKSU+L6PpmmEQiE0TcNxHGq1GvV6/c1xnLxt28zncjxPJlwlk1EhxLeiQghc10UIged5CCGwLItms0m73f7wPO9pNpvdyuVyD6urKyv+QiaTUaPRKMViEdd1aTQatFotTNOk1+sxHA7xfZ9QKIQsy0/j8fhGKpXaVxQFkVxfQ9d1dF1HURRGoxGDwYBer0ds20gp8TwPwzAIBAKvhmGsm6b5LKSUStM0AoEAQggmkwmWZWFZFp7nIaVESkkwGERVVSzLOsxms7fAO/wRfQIoMqJu8Yx+2QAAAABJRU5ErkJggg==">
     <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -15,8 +15,8 @@
         <nav class="bg-gradient-to-r from-gray-900 to-gray-800 text-white shadow-lg border-b border-purple-500/30 backdrop-blur-sm">
             <div class="container mx-auto px-4 py-3">
                 <div class="flex justify-between items-center">
-                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Dino Stats</h1>
-                    <span class="text-sm text-gray-400">Estatísticas Gerais da Twitch BR</span>
+                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">StreamerStats Brasil</h1>
+                    <span class="text-sm text-gray-400">Estatísticas Gerais do Cenário Brasileiro</span>
                 </div>
             </div>
         </nav>
@@ -267,8 +267,8 @@
     createApp({
         setup() {
             // Twitch API Configuration
-            const TWITCH_CLIENT_ID = 'your_client_id';
-            const TWITCH_AUTH_TOKEN = 'your_auth_token';
+            const TWITCH_CLIENT_ID = '002oi2hax3vtjug3ckqglirv082j92'; // Seu Client ID
+            const TWITCH_OAUTH_TOKEN = 'mjl6rbcyvuzxp2kw5qahf32oayqnxb'; // Seu OAuth Token
             
             // Fetch data from Twitch API
             const fetchTwitchData = async () => {
@@ -276,7 +276,7 @@
                     // Headers for Twitch API requests
                     const headers = {
                         'Client-ID': TWITCH_CLIENT_ID,
-                        'Authorization': `Bearer ${TWITCH_AUTH_TOKEN}`,
+                        'Authorization': `Bearer ${TWITCH_OAUTH_TOKEN}`,
                     };
                     
                     // Get top Brazilian streams
