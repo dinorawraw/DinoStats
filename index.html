@@ -37,6 +37,19 @@
                     </p>
                 </div>
 
+                <!-- Novos Streamers e Horários de Descoberta e Ociosidade do Público -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Novos Streamers e Horários de Descoberta e Ociosidade do Público</h2>
+                    <div class="relative h-64">
+                        <canvas ref="discoveryChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">
+                            Horários em que novos streamers começam a transmitir e o público está mais propenso a descobrir novos canais e ficar ocioso (navegando entre streams).
+                        </p>
+                    </div>
+                </div>
+
                 <!-- Multi-Game vs Single-Game Analysis -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
                     <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Análise Multi-Jogos vs Jogo Único</h2>
@@ -209,6 +222,7 @@
             const onlineByCategoryChart = ref(null);
             const watchTimeChart = ref(null);
             const competitionChart = ref(null);
+            const discoveryChart = ref(null);
 
             const quickStats = ref([
                 { label: 'Streamers Ativos', value: '12K', trend: 8 },
@@ -238,116 +252,88 @@
                 { name: 'Banishers: Ghosts of New Eden', growth: 55, date: '2024-02-15', viewers: '30K', releaseDate: '2024-02-13', avgStreamLength: '3.8h' }
             ]);
 
+            // Função para buscar novos streamers (exemplo)
+            const fetchNewStreamersData = async () => {
+                const headers = {
+                    'Client-ID': TWITCH_CLIENT_ID,
+                    'Authorization': `Bearer ${TWITCH_OAUTH_TOKEN}`,
+                };
+                const response = await fetch('https://api.twitch.tv/helix/streams?first=100', { headers });
+                const data = await response.json();
+                return data.data;
+            };
+
+            // Função para processar os dados de descoberta (exemplo)
+            const processDiscoveryData = (streamers) => {
+                const hourlyCounts = Array(24).fill(0); // Contagem de novos streamers por hora
+                const hourlyViewers = Array(24).fill(0); // Soma de viewers por hora
+                const hourlyStreams = Array(24).fill(0); // Contagem de streams por hora
+
+                streamers.forEach(streamer => {
+                    const hour = new Date(streamer.started_at).getHours();
+                    hourlyCounts[hour]++;
+                    hourlyViewers[hour] += streamer.viewer_count;
+                    hourlyStreams[hour]++;
+                });
+
+                // Calcular a média de viewers por hora
+                const avgViewers = hourlyViewers.map((viewers, index) => viewers / hourlyStreams[index] || 0);
+
+                return {
+                    labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                    datasets: [
+                        {
+                            label: 'Novos Streamers',
+                            data: hourlyCounts,
+                            backgroundColor: '#7C3AED',
+                        },
+                        {
+                            label: 'Audiência Média',
+                            data: avgViewers,
+                            backgroundColor: '#4F46E5',
+                            borderColor: '#4F46E5',
+                            type: 'line', // Usar uma linha para a audiência média
+                            tension: 0.4,
+                            yAxisID: 'y2', // Usar um eixo Y secundário
+                        }
+                    ]
+                };
+            };
+
             onMounted(async () => {
-                // Initialize schedule chart
-                const ctx = scheduleChart.value.getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'],
-                        datasets: [{
-                            label: 'Audiência Média (BRT)',
-                            data: [450, 400, 350, 300, 250, 200, 180, 150, 120, 100, 90, 80, 70, 80, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 920, 900, 850, 800, 750, 700, 750, 800, 850, 900, 920, 850, 800, 750, 700, 600, 500],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-                
-                // Initialize hype games chart
-                const hypeCtx = hypeGamesChart.value.getContext('2d');
-                new Chart(hypeCtx, {
+                // Inicializar gráfico de descoberta
+                const newStreamersData = await fetchNewStreamersData();
+                const discoveryData = processDiscoveryData(newStreamersData);
+
+                const discoveryCtx = discoveryChart.value.getContext('2d');
+                new Chart(discoveryCtx, {
                     type: 'bar',
-                    data: {
-                        labels: hypeGames.value.map(game => game.name),
-                        datasets: [{
-                            label: 'Viewers',
-                            data: hypeGames.value.map(game => parseInt(game.viewers.replace('K', '')) * 1000),
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
+                    data: discoveryData,
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false
-                    }
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Novos Streamers',
+                                },
+                            },
+                            y2: {
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Audiência Média',
+                                },
+                                grid: {
+                                    drawOnChartArea: false, // Evita sobreposição de grids
+                                },
+                            },
+                        },
+                    },
                 });
 
-                // Initialize new games chart
-                const newCtx = newGamesChart.value.getContext('2d');
-                new Chart(newCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: newGames.value.map(game => game.name),
-                        datasets: [{
-                            label: 'Crescimento em Views',
-                            data: newGames.value.map(game => game.growth),
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize online by category chart
-                const onlineCtx = onlineByCategoryChart.value.getContext('2d');
-                new Chart(onlineCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
-                        datasets: [{
-                            label: 'Streamers Ativos',
-                            data: [1200, 950, 800, 750],
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize watch time chart
-                const watchCtx = watchTimeChart.value.getContext('2d');
-                new Chart(watchCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'],
-                        datasets: [{
-                            label: 'Média de Horas Assistidas',
-                            data: [1.9, 1.8, 1.7, 1.6, 1.5, 1.4, 1.3, 1.2, 1.1, 1.0, 0.9, 0.8, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.4, 2.3, 2.2, 2.1, 2.0, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.3, 2.2, 2.1, 2.0, 1.9, 1.8],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize competition chart
-                const competitionCtx = competitionChart.value.getContext('2d');
-                new Chart(competitionCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
-                        datasets: [{
-                            label: 'Streamers Ativos',
-                            data: [1200, 950, 800, 750],
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
+                // Inicializar outros gráficos...
             });
 
             return {
@@ -359,7 +345,8 @@
                 newGamesChart,
                 onlineByCategoryChart,
                 watchTimeChart,
-                competitionChart
+                competitionChart,
+                discoveryChart
             };
         }
     }).mount('#app');
