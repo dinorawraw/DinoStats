@@ -50,7 +50,112 @@
                     </div>
                 </div>
 
-                <!-- Outras seções do dashboard... -->
+                <!-- Multi-Game vs Single-Game Analysis -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Análise Multi-Jogos vs Jogo Único</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800/50 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
+                            <h3 class="text-lg font-semibold mb-2 text-purple-400">Streamers Multi-Jogos</h3>
+                            <p class="text-sm text-gray-600 mb-2">Média de crescimento mensal: <span class="text-purple-600 font-bold">15%</span></p>
+                            <p class="text-sm text-gray-600 mb-2">Retenção de audiência: <span class="text-purple-600 font-bold">45%</span></p>
+                            <p class="text-sm text-gray-600">Engajamento médio: <span class="text-purple-600 font-bold">78 mensagens/min</span></p>
+                        </div>
+                        <div class="bg-purple-900/20 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
+                            <h3 class="text-lg font-semibold mb-2">Streamers Jogo Único</h3>
+                            <p class="text-sm text-gray-600 mb-2">Média de crescimento mensal: <span class="text-purple-600 font-bold">22%</span></p>
+                            <p class="text-sm text-gray-600 mb-2">Retenção de audiência: <span class="text-purple-600 font-bold">65%</span></p>
+                            <p class="text-sm text-gray-600">Engajamento médio: <span class="text-purple-600 font-bold">92 mensagens/min</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stream Schedule Optimizer -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 md:col-span-2 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Melhores Horários para Transmissão</h2>
+                    <div class="relative h-64">
+                        <canvas ref="scheduleChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">Horários com maior audiência no Brasil (BRT).</p>
+                    </div>
+                </div>
+
+                <!-- Jogos em Alta (Hype) -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Jogos em Alta no Brasil</h2>
+                    <div class="relative h-64">
+                        <canvas ref="hypeGamesChart"></canvas>
+                    </div>
+                    <div class="mt-4 space-y-4">
+                        <ul class="space-y-2">
+                            <li v-for="game in hypeGames" :key="game.name" class="flex justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-gray-300">{{ game.name }}</span>
+                                    <span class="text-sm text-gray-500">Lançado em {{ game.date }}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-purple-400 font-semibold block">{{ game.viewers }} viewers</span>
+                                    <span class="text-sm text-gray-500">Pico: {{ game.peakViewers }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Jogos Novos com Crescimento em Views -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Jogos Novos com Crescimento em Views</h2>
+                    <div class="relative h-64">
+                        <canvas ref="newGamesChart"></canvas>
+                    </div>
+                    <div class="mt-4 space-y-4">
+                        <ul class="space-y-2">
+                            <li v-for="game in newGames" :key="game.name" class="flex justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-gray-300">{{ game.name }}</span>
+                                    <span class="text-sm text-gray-500">Lançamento: {{ game.releaseDate }}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-purple-400 font-semibold block">{{ game.growth }}% de crescimento</span>
+                                    <span class="text-sm text-gray-500">{{ game.viewers }} viewers atuais</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Streamers Online por Categoria e Horário -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Streamers Online por Categoria e Horário</h2>
+                    <div class="relative h-64">
+                        <canvas ref="onlineByCategoryChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">Número de streamers ativos por categoria em diferentes horários.</p>
+                    </div>
+                </div>
+
+                <!-- Média de Horas Assistidas por Horário -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Média de Horas Assistidas por Horário</h2>
+                    <div class="relative h-64">
+                        <canvas ref="watchTimeChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">Média de horas que os espectadores passam assistindo streams por horário.</p>
+                    </div>
+                </div>
+
+                <!-- Análise de Concorrência -->
+                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Cenário Competitivo</h2>
+                    <div class="relative h-64">
+                        <canvas ref="competitionChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">Número de streamers ativos por jogo no Brasil.</p>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -62,35 +167,68 @@
         setup() {
             // Referências para os gráficos
             const discoveryChart = ref(null);
+            const scheduleChart = ref(null);
+            const hypeGamesChart = ref(null);
+            const newGamesChart = ref(null);
+            const onlineByCategoryChart = ref(null);
+            const watchTimeChart = ref(null);
+            const competitionChart = ref(null);
 
-            // Dados de exemplo para o gráfico de descoberta
-            const discoveryData = {
-                labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
-                datasets: [
-                    {
-                        label: 'Novos Streamers',
-                        data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 100)), // Dados aleatórios
-                        backgroundColor: '#7C3AED',
-                    },
-                    {
-                        label: 'Audiência Média',
-                        data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 1000)), // Dados aleatórios
-                        backgroundColor: '#4F46E5',
-                        borderColor: '#4F46E5',
-                        type: 'line',
-                        tension: 0.4,
-                        yAxisID: 'y2',
-                    }
-                ]
-            };
+            // Dados de exemplo para os gráficos
+            const quickStats = ref([
+                { label: 'Streamers Ativos', value: '12K', trend: 8 },
+                { label: 'Audiência Total', value: '450K', trend: 12 },
+                { label: 'Jogos Populares', value: '25', trend: 5 }
+            ]);
+
+            const hypeGames = ref([
+                { name: 'Valorant', viewers: '120K', date: '2024-02-15', peakViewers: '180K' },
+                { name: 'League of Legends', viewers: '95K', date: '2024-02-15', peakViewers: '150K' },
+                { name: 'Minecraft', viewers: '80K', date: '2024-02-15', peakViewers: '120K' },
+                { name: 'Fortnite', viewers: '75K', date: '2024-02-15', peakViewers: '110K' },
+                { name: 'GTA V', viewers: '70K', date: '2024-02-15', peakViewers: '95K' },
+                { name: 'CS:GO', viewers: '65K', date: '2024-02-15', peakViewers: '85K' },
+                { name: 'Just Chatting', viewers: '60K', date: '2024-02-15', peakViewers: '90K' },
+                { name: 'FIFA 24', viewers: '55K', date: '2024-02-15', peakViewers: '75K' }
+            ]);
+
+            const newGames = ref([
+                { name: 'Palworld', growth: 120, viewers: '85K', releaseDate: '2024-01-19' },
+                { name: 'Lethal Company', growth: 95, viewers: '65K', releaseDate: '2023-10-23' },
+                { name: 'Enshrouded', growth: 80, viewers: '55K', releaseDate: '2024-01-24' },
+                { name: 'Suicide Squad: Kill the Justice League', growth: 75, viewers: '50K', releaseDate: '2024-02-02' },
+                { name: 'Helldivers 2', growth: 70, viewers: '45K', releaseDate: '2024-02-08' },
+                { name: 'Pacific Drive', growth: 65, viewers: '40K', releaseDate: '2024-02-22' },
+                { name: 'Skull and Bones', growth: 60, viewers: '35K', releaseDate: '2024-02-16' },
+                { name: 'Banishers: Ghosts of New Eden', growth: 55, viewers: '30K', releaseDate: '2024-02-13' }
+            ]);
 
             // Inicializar gráficos após o componente ser montado
             onMounted(() => {
+                // Gráfico de Descoberta
                 if (discoveryChart.value) {
                     const ctx = discoveryChart.value.getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
-                        data: discoveryData,
+                        data: {
+                            labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                            datasets: [
+                                {
+                                    label: 'Novos Streamers',
+                                    data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 100)),
+                                    backgroundColor: '#7C3AED',
+                                },
+                                {
+                                    label: 'Audiência Média',
+                                    data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 1000)),
+                                    backgroundColor: '#4F46E5',
+                                    borderColor: '#4F46E5',
+                                    type: 'line',
+                                    tension: 0.4,
+                                    yAxisID: 'y2',
+                                }
+                            ]
+                        },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
@@ -114,13 +252,142 @@
                             },
                         },
                     });
-                } else {
-                    console.error('Canvas do gráfico de descoberta não encontrado.');
+                }
+
+                // Gráfico de Melhores Horários para Transmissão
+                if (scheduleChart.value) {
+                    const ctx = scheduleChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                            datasets: [{
+                                label: 'Audiência Média (BRT)',
+                                data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 1000)),
+                                borderColor: '#7C3AED',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Gráfico de Jogos em Alta
+                if (hypeGamesChart.value) {
+                    const ctx = hypeGamesChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: hypeGames.value.map(game => game.name),
+                            datasets: [{
+                                label: 'Viewers',
+                                data: hypeGames.value.map(game => parseInt(game.viewers.replace('K', '')) * 1000),
+                                backgroundColor: '#7C3AED',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Gráfico de Jogos Novos com Crescimento em Views
+                if (newGamesChart.value) {
+                    const ctx = newGamesChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: newGames.value.map(game => game.name),
+                            datasets: [{
+                                label: 'Crescimento em Views',
+                                data: newGames.value.map(game => game.growth),
+                                backgroundColor: '#7C3AED',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Gráfico de Streamers Online por Categoria e Horário
+                if (onlineByCategoryChart.value) {
+                    const ctx = onlineByCategoryChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
+                            datasets: [{
+                                label: 'Streamers Ativos',
+                                data: [1200, 950, 800, 750],
+                                backgroundColor: '#7C3AED',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Gráfico de Média de Horas Assistidas por Horário
+                if (watchTimeChart.value) {
+                    const ctx = watchTimeChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                            datasets: [{
+                                label: 'Média de Horas Assistidas',
+                                data: Array.from({ length: 24 }, () => Math.random() * 3),
+                                borderColor: '#7C3AED',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Gráfico de Cenário Competitivo
+                if (competitionChart.value) {
+                    const ctx = competitionChart.value.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
+                            datasets: [{
+                                label: 'Streamers Ativos',
+                                data: [1200, 950, 800, 750],
+                                backgroundColor: '#7C3AED',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
                 }
             });
 
             return {
+                quickStats,
+                hypeGames,
+                newGames,
                 discoveryChart,
+                scheduleChart,
+                hypeGamesChart,
+                newGamesChart,
+                onlineByCategoryChart,
+                watchTimeChart,
+                competitionChart
             };
         }
     }).mount('#app');
