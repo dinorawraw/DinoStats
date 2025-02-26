@@ -200,39 +200,37 @@
     createApp({
         setup() {
             // Substitua pelos seus dados
-            const TWITCH_CLIENT_ID = 'gp762nuuoqcoxypju8c569th9wz7q5'; // Seu Client ID
-            const TWITCH_AUTH_TOKEN = 'fh6z001j90a1t2xa88jnb964om8x49'; // Seu Access Token
+            const TWITCH_CLIENT_ID = 'ujqugm0jg9rfesg80w0g617zit55lr'; // Seu Client ID
+            const TWITCH_CLIENT_SECRET = 'tuoyv6mbk7fijc5q4maerbkerexdaf'; // Seu Client Secret
+            const TWITCH_AUTH_TOKEN = ref(null); // Token de autenticação será gerado dinamicamente
 
-            // Referências para os gráficos
-            const highViewsLowStreamersChart = ref(null);
-            const scheduleChart = ref(null);
-            const hypeGamesChart = ref(null);
-            const newGamesChart = ref(null);
-            const onlineByCategoryChart = ref(null);
-            const watchTimeChart = ref(null);
-            const competitionChart = ref(null);
-            const monetizationTimeChart = ref(null);
-            const monetizationCategoryChart = ref(null);
-            const collaborationChart = ref(null);
-            const retentionChart = ref(null);
-            const demographicsChart = ref(null);
-
-            // Dados das categorias
-            const categoriesData = ref([]);
-            const quickStats = ref([
-                { label: 'Streamers Ativos', value: '12K', trend: 8 },
-                { label: 'Audiência Total', value: '450K', trend: 12 },
-                { label: 'Jogos Populares', value: '25', trend: 5 }
-            ]);
-            const hypeGames = ref([]);
-            const newGames = ref([]);
+            // Função para gerar o token de autenticação
+            const generateAuthToken = async () => {
+                try {
+                    const response = await fetch('https://id.twitch.tv/oauth2/token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            client_id: TWITCH_CLIENT_ID,
+                            client_secret: TWITCH_CLIENT_SECRET,
+                            grant_type: 'client_credentials',
+                        }),
+                    });
+                    const data = await response.json();
+                    TWITCH_AUTH_TOKEN.value = data.access_token; // Armazena o token gerado
+                } catch (error) {
+                    console.error('Erro ao gerar token de autenticação:', error);
+                }
+            };
 
             // Função para buscar dados da API da Twitch
             const fetchTwitchData = async () => {
                 try {
                     const headers = {
                         'Client-ID': TWITCH_CLIENT_ID,
-                        'Authorization': `Bearer ${TWITCH_AUTH_TOKEN}`,
+                        'Authorization': `Bearer ${TWITCH_AUTH_TOKEN.value}`,
                     };
 
                     // Buscar streams ativos no Brasil
@@ -335,12 +333,17 @@
 
             // Carregar dados e inicializar gráficos ao montar o componente
             onMounted(async () => {
-                await fetchTwitchData();
-                initializeCharts();
+                await generateAuthToken(); // Gera o token de autenticação
+                await fetchTwitchData(); // Busca os dados da Twitch
+                initializeCharts(); // Inicializa os gráficos
             });
 
             return {
-                quickStats,
+                quickStats: ref([
+                    { label: 'Streamers Ativos', value: '12K', trend: 8 },
+                    { label: 'Audiência Total', value: '450K', trend: 12 },
+                    { label: 'Jogos Populares', value: '25', trend: 5 }
+                ]),
                 hypeGames,
                 newGames,
                 highViewsLowStreamersChart,
