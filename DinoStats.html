@@ -6,7 +6,7 @@
     <title>StreamerStats Brasil - Estatísticas Gerais</title>
     <meta name="description" content="Plataforma de análise do cenário brasileiro da Twitch - Descubra os melhores horários, jogos populares e tendências para crescer na plataforma">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABR0lEQVQ4jZ2TvUoDQRSFv9ndhGQTNYkgaGMhiKKFhYU/hYiVYGsrvoGFT2DnM/gEYmcjgoWFhYVgYSGIGo0aE7Ob7K7FJrubGYNGDwwzc+/5zjn3zgz8s5TvQTqdVuPxeEjXdQxNw/M8PM/D931c18V1XQqFglwoFNhst9krlXgcj8e/FKSU+L6PpmmEQiE0TcNxHGq1GvV6/c1xnLxt28zncjxPJlwlk1EhxLeiQghc10UIged5CCGwLItms0m73f7wPO9pNpvdyuVyD6urKyv+QiaTUaPRKMViEdd1aTQatFotTNOk1+sxHA7xfZ9QKIQsy0/j8fhGKpXaVxQFkVxfQ9d1dF1HURRGoxGDwYBer4dt20gp8TwPwzAIBAKvhmGsm6b5LKSUStM0AoEAQggmkwmWZWFZFp7nIaVESkkwGERVVSzLOsxms7fAO/wRfQIoMqJu8Yx+2QAAAABJRU5ErkJggg==">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABR0lEQVQ4jZ2TvUoDQRSFv9ndhGQTNYkgaGMhiKKFhYU/hYiVYGsrvoGFT2DnM/gEYmcjgoWFhYVgYSGIGo0aE7Ob7K7FJrubGYNGDwwzc+/5zjn3zgz8s5TvQTqdVuPxeEjXdQxNw/M8PM/D931c18V1XQqFglwoFNhst9krlXgcj8e/FKSU+L6PpmmEQiE0TcNxHGq1GvV6/c1xnLxt28znczxPJlwlk1EhxLeiQghc10UIged5CCGwLItms0m73f7wPO9pNpvdyuVyD6urKyv+QiaTUaPRKMViEdd1aTQatFotTNOk1+sxHA7xfR9QKIQsy0/j8fhGKpXaVxQFkVxfQ9d1HVRRGI1GDwYBer4dt20gp8TwPwzAIBAKvhmGsm6b5LKSUStM0AoEAQggmkwmWZWFZFp7nIaVESkkwGERVVSzLOsxms7fAO/wRfQIoMqJu8Yx+2QAAAABJRU5ErkJggg==">
     <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -37,26 +37,18 @@
                     </p>
                 </div>
 
-                <!-- Multi-Game vs Single-Game Analysis -->
+                <!-- Categorias com Alta Audiência e Poucos Streamers -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Análise Multi-Jogos vs Jogo Único</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-800/50 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                            <h3 class="text-lg font-semibold mb-2 text-purple-400">Streamers Multi-Jogos</h3>
-                            <p class="text-sm text-gray-600 mb-2">Média de crescimento mensal: <span class="text-purple-600 font-bold">15%</span></p>
-                            <p class="text-sm text-gray-600 mb-2">Retenção de audiência: <span class="text-purple-600 font-bold">45%</span></p>
-                            <p class="text-sm text-gray-600">Engajamento médio: <span class="text-purple-600 font-bold">78 mensagens/min</span></p>
-                        </div>
-                        <div class="bg-purple-900/20 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                            <h3 class="text-lg font-semibold mb-2">Streamers Jogo Único</h3>
-                            <p class="text-sm text-gray-600 mb-2">Média de crescimento mensal: <span class="text-purple-600 font-bold">22%</span></p>
-                            <p class="text-sm text-gray-600 mb-2">Retenção de audiência: <span class="text-purple-600 font-bold">65%</span></p>
-                            <p class="text-sm text-gray-600">Engajamento médio: <span class="text-purple-600 font-bold">92 mensagens/min</span></p>
-                        </div>
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Categorias com Alta Audiência e Poucos Streamers</h2>
+                    <div class="relative h-64">
+                        <canvas ref="highAudienceLowStreamersChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">Categorias com alta audiência, mas poucos streamers ativos.</p>
                     </div>
                 </div>
 
-                <!-- Stream Schedule Optimizer -->
+                <!-- Melhores Horários para Transmissão -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 md:col-span-2 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
                     <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Melhores Horários para Transmissão</h2>
                     <div class="relative h-64">
@@ -144,7 +136,6 @@
                     </div>
                 </div>
 
-                <!-- Tendências de Conteúdo -->
                 <!-- Monetização por Horário -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
                     <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Monetização por Horário</h2>
@@ -167,7 +158,6 @@
                     </div>
                 </div>
 
-                <!-- Colaborações -->
                 <!-- Colaborações vs. Audiência -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
                     <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Impacto de Colaborações</h2>
@@ -200,63 +190,6 @@
                         <p class="text-gray-600">Análise demográfica dos espectadores por tipo de conteúdo.</p>
                     </div>
                 </div>
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Tendências de Conteúdo</h2>
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold mb-2">Análise de Descoberta</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <div class="bg-gray-800/50 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                                <h4 class="font-semibold mb-2 text-purple-400">Sem Divulgação Externa</h4>
-                                <p class="text-sm text-gray-600">Crescimento médio mensal: <span class="text-purple-600 font-bold">12%</span></p>
-                                <p class="text-sm text-gray-600">Retenção: <span class="text-purple-600 font-bold">45%</span></p>
-                                <p class="text-sm text-gray-600">Novos seguidores/mês: <span class="text-purple-600 font-bold">250</span></p>
-                            </div>
-                            <div class="bg-purple-900/20 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                                <h4 class="font-semibold mb-2 text-purple-400">Redes Sociais</h4>
-                                <p class="text-sm text-gray-600">Crescimento médio mensal: <span class="text-purple-600 font-bold">35%</span></p>
-                                <p class="text-sm text-gray-600">Retenção: <span class="text-purple-600 font-bold">62%</span></p>
-                                <p class="text-sm text-gray-600">Novos seguidores/mês: <span class="text-purple-600 font-bold">850</span></p>
-                                <div class="mt-2">
-                                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full mr-1 border border-purple-500/30">Twitter</span>
-                                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full mr-1 border border-purple-500/30">Instagram</span>
-                                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">TikTok</span>
-                                </div>
-                            </div>
-                            <div class="bg-purple-900/20 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                                <h4 class="font-semibold mb-2 text-purple-400">Sites Especializados</h4>
-                                <p class="text-sm text-gray-600">Crescimento médio mensal: <span class="text-purple-600 font-bold">28%</span></p>
-                                <p class="text-sm text-gray-600">Retenção: <span class="text-purple-600 font-bold">58%</span></p>
-                                <p class="text-sm text-gray-600">Novos seguidores/mês: <span class="text-purple-600 font-bold">650</span></p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-lg font-semibold mb-2">Tags em Alta</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div v-for="tag in popularTags" :key="tag.name" class="bg-purple-900/20 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                                <span class="inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm mb-2 border border-purple-500/30">#{{ tag.name }}</span>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-600">{{ tag.streams }} streams<br>
-                                    {{ tag.avgViewers }}K viewers</span>
-                                    <span class="text-sm font-semibold" :class="tag.growth >= 0 ? 'text-green-600' : 'text-red-600'">
-                                        {{ tag.growth >= 0 ? '+' : '' }}{{ tag.growth }}%
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div v-for="trend in contentTrends" :key="trend.label" class="bg-gray-800/50 rounded-xl p-6 border border-purple-500/10 backdrop-blur-sm">
-                            <h3 class="text-gray-400 text-sm">{{ trend.label }}</h3>
-                            <p class="text-2xl font-bold text-purple-400">{{ trend.value }}</p>
-                            <p class="text-sm text-gray-600">
-                                <span :class="trend.trend > 0 ? 'text-green-500' : 'text-red-500'">
-                                    {{ trend.trend > 0 ? '↑' : '↓' }} {{ Math.abs(trend.trend) }}%
-                                </span>
-                                vs última semana
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
@@ -266,173 +199,115 @@
 
     createApp({
         setup() {
-            // Twitch API Configuration
-            const TWITCH_CLIENT_ID = 'your_client_id';
-            const TWITCH_AUTH_TOKEN = 'your_auth_token';
-            
-            // Fetch data from Twitch API
-            const fetchTwitchData = async () => {
-                try {
-                    // Headers for Twitch API requests
-                    const headers = {
-                        'Client-ID': TWITCH_CLIENT_ID,
-                        'Authorization': `Bearer ${TWITCH_AUTH_TOKEN}`,
-                    };
-                    
-                    // Get top Brazilian streams
-                    const streamsResponse = await fetch('https://api.twitch.tv/helix/streams?language=pt&first=100', { headers });
-                    const streamsData = await streamsResponse.json();
-                    
-                    // Get game data
-                    const gameIds = [...new Set(streamsData.data.map(stream => stream.game_id))];
-                    const gamesResponse = await fetch(`https://api.twitch.tv/helix/games?${gameIds.map(id => `id=${id}`).join('&')}`, { headers });
-                    const gamesData = await gamesResponse.json();
-                    
-                    // Process stream data
-                    const processedData = streamsData.data.reduce((acc, stream) => {
-                        const game = gamesData.data.find(g => g.id === stream.game_id);
-                        const hour = new Date(stream.started_at).getHours();
-                        
-                        // Update hourly stats
-                        if (!acc.hourlyStats[hour]) {
-                            acc.hourlyStats[hour] = { viewers: 0, streams: 0 };
-                        }
-                        acc.hourlyStats[hour].viewers += stream.viewer_count;
-                        acc.hourlyStats[hour].streams++;
-                        
-                        // Update game stats
-                        if (!acc.gameStats[game?.name]) {
-                            acc.gameStats[game?.name] = { viewers: 0, streams: 0 };
-                        }
-                        acc.gameStats[game?.name].viewers += stream.viewer_count;
-                        acc.gameStats[game?.name].streams++;
-                        
-                        return acc;
-                    }, { hourlyStats: {}, gameStats: {} });
-                    
-                    return processedData;
-                } catch (error) {
-                    console.error('Error fetching Twitch data:', error);
-                    return null;
-                }
-            };
+            const TWITCH_CLIENT_ID = 'ujqugm0jg9rfesg80w0g617zit55lr'; // Substituído pelo Client ID fornecido
+            const TWITCH_AUTH_TOKEN = 'ujqugm0jg9rfesg80w0g617zit55lr'; // Substituído pelo Token de Autenticação fornecido
 
+            // Referências para os gráficos
+            const highAudienceLowStreamersChart = ref(null);
             const scheduleChart = ref(null);
             const hypeGamesChart = ref(null);
             const newGamesChart = ref(null);
-            const monetizationTimeChart = ref(null);
-            const monetizationCategoryChart = ref(null);
             const onlineByCategoryChart = ref(null);
             const watchTimeChart = ref(null);
             const competitionChart = ref(null);
+            const monetizationTimeChart = ref(null);
+            const monetizationCategoryChart = ref(null);
             const collaborationChart = ref(null);
             const retentionChart = ref(null);
             const demographicsChart = ref(null);
 
+            // Dados das categorias
+            const categoriesData = ref([]);
             const quickStats = ref([
                 { label: 'Streamers Ativos', value: '12K', trend: 8 },
                 { label: 'Audiência Total', value: '450K', trend: 12 },
                 { label: 'Jogos Populares', value: '25', trend: 5 }
             ]);
+            const hypeGames = ref([]);
+            const newGames = ref([]);
 
-            const hypeGames = ref([
-                { name: 'Valorant', viewers: '120K', date: '2024-02-15', peakViewers: '180K', avgStreamLength: '6.5h' },
-                { name: 'League of Legends', viewers: '95K', date: '2024-02-15', peakViewers: '150K', avgStreamLength: '5.8h' },
-                { name: 'Minecraft', viewers: '80K', date: '2024-02-15', peakViewers: '120K', avgStreamLength: '4.2h' },
-                { name: 'Fortnite', viewers: '75K', date: '2024-02-15', peakViewers: '110K', avgStreamLength: '5.1h' },
-                { name: 'GTA V', viewers: '70K', date: '2024-02-15', peakViewers: '95K', avgStreamLength: '6.2h' },
-                { name: 'CS:GO', viewers: '65K', date: '2024-02-15', peakViewers: '85K', avgStreamLength: '4.8h' },
-                { name: 'Just Chatting', viewers: '60K', date: '2024-02-15', peakViewers: '90K', avgStreamLength: '3.5h' },
-                { name: 'FIFA 24', viewers: '55K', date: '2024-02-15', peakViewers: '75K', avgStreamLength: '4.0h' }
-            ]);
+            // Função para buscar dados da API da Twitch
+            const fetchTwitchData = async () => {
+                try {
+                    const headers = {
+                        'Client-ID': TWITCH_CLIENT_ID,
+                        'Authorization': `Bearer ${TWITCH_AUTH_TOKEN}`,
+                    };
 
-            const newGames = ref([
-                { name: 'Palworld', growth: 120, date: '2024-02-15', viewers: '85K', releaseDate: '2024-01-19', avgStreamLength: '5.2h' },
-                { name: 'Lethal Company', growth: 95, date: '2024-02-15', viewers: '65K', releaseDate: '2023-10-23', avgStreamLength: '4.1h' },
-                { name: 'Enshrouded', growth: 80, date: '2024-02-15', viewers: '55K', releaseDate: '2024-01-24', avgStreamLength: '4.8h' },
-                { name: 'Suicide Squad: Kill the Justice League', growth: 75, date: '2024-02-15', viewers: '50K', releaseDate: '2024-02-02', avgStreamLength: '5.5h' },
-                { name: 'Helldivers 2', growth: 70, date: '2024-02-15', viewers: '45K', releaseDate: '2024-02-08', avgStreamLength: '3.9h' },
-                { name: 'Pacific Drive', growth: 65, date: '2024-02-15', viewers: '40K', releaseDate: '2024-02-22', avgStreamLength: '4.2h' },
-                { name: 'Skull and Bones', growth: 60, date: '2024-02-15', viewers: '35K', releaseDate: '2024-02-16', avgStreamLength: '4.5h' },
-                { name: 'Banishers: Ghosts of New Eden', growth: 55, date: '2024-02-15', viewers: '30K', releaseDate: '2024-02-13', avgStreamLength: '3.8h' }
-            ]);
+                    // Buscar streams ativos no Brasil
+                    const streamsResponse = await fetch('https://api.twitch.tv/helix/streams?language=pt&first=100', { headers });
+                    const streamsData = await streamsResponse.json();
 
-            const popularTags = ref([
-                { name: 'VCTAmericas', streams: 450, growth: 85, avgViewers: 12000 },
-                { name: 'WatchParty', streams: 320, growth: 45, avgViewers: 8500 },
-                { name: 'DropsAtivados', streams: 280, growth: 35, avgViewers: 7200 },
-                { name: 'NovoJogo', streams: 250, growth: 25, avgViewers: 6800 },
-                { name: 'Ranked', streams: 220, growth: 20, avgViewers: 5500 },
-                { name: 'AoVivo', streams: 200, growth: 15, avgViewers: 4800 },
-                { name: 'Competitivo', streams: 180, growth: -5, avgViewers: 4200 },
-                { name: 'Tutorial', streams: 150, growth: -10, avgViewers: 3500 },
-                { name: 'Casual', streams: 130, growth: -15, avgViewers: 3000 }
-            ]);
-            const contentTrends = ref([
-                { label: 'Crescimento de Jogos Indie', value: '+35%', trend: 35 },
-                { label: 'Streams de React', value: '1.5K', trend: 20 },
-                { label: 'Eventos Especiais', value: '300+', trend: 15 }
-            ]);
+                    // Agrupar dados por categoria
+                    const categories = streamsData.data.reduce((acc, stream) => {
+                        const gameId = stream.game_id;
+                        if (!acc[gameId]) {
+                            acc[gameId] = {
+                                name: stream.game_name,
+                                viewers: 0,
+                                streamers: 0,
+                            };
+                        }
+                        acc[gameId].viewers += stream.viewer_count;
+                        acc[gameId].streamers += 1;
+                        return acc;
+                    }, {});
 
-            onMounted(async () => {
-                // Initialize schedule chart
-                const ctx = scheduleChart.value.getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'],
-                        datasets: [{
-                            label: 'Audiência Média (BRT)',
-                            data: [450, 400, 350, 300, 250, 200, 180, 150, 120, 100, 90, 80, 70, 80, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 920, 900, 850, 800, 750, 700, 750, 800, 850, 900, 920, 850, 800, 750, 700, 600, 500],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-                
-                // Initialize monetization by time chart
-                const monetizationTimeCtx = monetizationTimeChart.value.getContext('2d');
-                new Chart(monetizationTimeCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'],
-                        datasets: [{
-                            label: 'Bits',
-                            data: [100, 120, 110, 90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 340, 320, 300, 280, 300, 320, 340, 360, 380, 340, 320, 300, 280, 240, 200],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Subs',
-                            data: [50, 60, 55, 45, 40, 35, 30, 25, 20, 15, 12, 10, 8, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 170, 160, 150, 140, 150, 160, 170, 180, 190, 170, 160, 150, 140, 120, 100],
-                            borderColor: '#60A5FA',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
+                    // Converter para array
+                    categoriesData.value = Object.values(categories);
 
-                // Initialize monetization by category chart
-                const monetizationCategoryCtx = monetizationCategoryChart.value.getContext('2d');
-                new Chart(monetizationCategoryCtx, {
+                    // Preencher dados de jogos em alta e novos jogos
+                    hypeGames.value = Object.values(categories)
+                        .sort((a, b) => b.viewers - a.viewers)
+                        .slice(0, 5)
+                        .map(category => ({
+                            name: category.name,
+                            viewers: `${Math.round(category.viewers / 1000)}K`,
+                            date: '2024-02-15', // Substitua por dados reais
+                            peakViewers: `${Math.round(category.viewers * 1.5 / 1000)}K`,
+                        }));
+
+                    newGames.value = Object.values(categories)
+                        .sort((a, b) => b.viewers - a.viewers)
+                        .slice(5, 10)
+                        .map(category => ({
+                            name: category.name,
+                            growth: Math.round((category.viewers / 1000) * 10),
+                            releaseDate: '2024-01-01', // Substitua por dados reais
+                            viewers: `${Math.round(category.viewers / 1000)}K`,
+                        }));
+                } catch (error) {
+                    console.error('Erro ao buscar dados da Twitch:', error);
+                }
+            };
+
+            // Função para filtrar categorias com alta audiência e poucos streamers
+            const findHighAudienceLowStreamers = (categories) => {
+                const thresholdViewers = 40000; // Audiência mínima para ser considerada "alta"
+                const thresholdStreamers = 300; // Número máximo de streamers para ser considerado "poucos"
+
+                return categories.filter(category => 
+                    category.viewers >= thresholdViewers && category.streamers <= thresholdStreamers
+                );
+            };
+
+            // Inicializar gráficos
+            const initializeCharts = () => {
+                const filteredCategories = findHighAudienceLowStreamers(categoriesData.value);
+
+                // Gráfico de categorias com alta audiência e poucos streamers
+                new Chart(highAudienceLowStreamersChart.value.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Games', 'Just Chatting', 'Reacts', 'IRL', 'Creative', 'Esports'],
+                        labels: filteredCategories.map(category => category.name),
                         datasets: [{
-                            label: 'Média de Bits por Stream',
-                            data: [5000, 3500, 4000, 2800, 2000, 6000],
+                            label: 'Audiência',
+                            data: filteredCategories.map(category => category.viewers),
                             backgroundColor: '#7C3AED',
                         },
                         {
-                            label: 'Média de Subs por Stream',
-                            data: [200, 150, 180, 120, 90, 250],
+                            label: 'Streamers Ativos',
+                            data: filteredCategories.map(category => category.streamers),
                             backgroundColor: '#60A5FA',
                         }]
                     },
@@ -456,197 +331,31 @@
                     }
                 });
 
-                // Initialize collaboration impact chart
-                const collaborationCtx = collaborationChart.value.getContext('2d');
-                new Chart(collaborationCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Sem Collab', 'Durante', 'Após 1h', 'Após 24h', 'Após 7 dias'],
-                        datasets: [{
-                            label: 'Média de Viewers',
-                            data: [100, 350, 280, 180, 150],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Novos Seguidores',
-                            data: [10, 200, 150, 80, 40],
-                            borderColor: '#60A5FA',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
+                // Inicializar outros gráficos aqui...
+            };
 
-                // Initialize retention chart
-                const retentionCtx = retentionChart.value.getContext('2d');
-                new Chart(retentionCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['2h', '3h', '4h', '5h', '6h', '7h', '8h+'],
-                        datasets: [{
-                            label: 'Taxa de Retenção (%)',
-                            data: [95, 90, 85, 75, 65, 55, 45],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 100
-                            }
-                        }
-                    }
-                });
-
-                // Initialize demographics chart
-                const demographicsCtx = demographicsChart.value.getContext('2d');
-                new Chart(demographicsCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['13-17', '18-24', '25-34', '35-44', '45+'],
-                        datasets: [{
-                            label: 'Games',
-                            data: [25, 40, 20, 10, 5],
-                            backgroundColor: '#7C3AED'
-                        },
-                        {
-                            label: 'Just Chatting',
-                            data: [15, 35, 30, 15, 5],
-                            backgroundColor: '#60A5FA'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                stacked: true
-                            },
-                            x: {
-                                stacked: true
-                            }
-                        }
-                    }
-                });
-
-                // Initialize hype games chart
-                const hypeCtx = hypeGamesChart.value.getContext('2d');
-                new Chart(hypeCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: hypeGames.value.map(game => game.name),
-                        datasets: [{
-                            label: 'Viewers',
-                            data: hypeGames.value.map(game => parseInt(game.viewers.replace('K', '')) * 1000),
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize new games chart
-                const newCtx = newGamesChart.value.getContext('2d');
-                new Chart(newCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: newGames.value.map(game => game.name),
-                        datasets: [{
-                            label: 'Crescimento em Views',
-                            data: newGames.value.map(game => game.growth),
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize online by category chart
-                const onlineCtx = onlineByCategoryChart.value.getContext('2d');
-                new Chart(onlineCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
-                        datasets: [{
-                            label: 'Streamers Ativos',
-                            data: [1200, 950, 800, 750],
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize watch time chart
-                const watchCtx = watchTimeChart.value.getContext('2d');
-                new Chart(watchCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'],
-                        datasets: [{
-                            label: 'Média de Horas Assistidas',
-                            data: [1.9, 1.8, 1.7, 1.6, 1.5, 1.4, 1.3, 1.2, 1.1, 1.0, 0.9, 0.8, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.4, 2.3, 2.2, 2.1, 2.0, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.3, 2.2, 2.1, 2.0, 1.9, 1.8],
-                            borderColor: '#7C3AED',
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-
-                // Initialize competition chart
-                const competitionCtx = competitionChart.value.getContext('2d');
-                new Chart(competitionCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Valorant', 'League of Legends', 'Minecraft', 'Fortnite'],
-                        datasets: [{
-                            label: 'Streamers Ativos',
-                            data: [1200, 950, 800, 750],
-                            backgroundColor: '#7C3AED',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
+            // Carregar dados e inicializar gráficos ao montar o componente
+            onMounted(async () => {
+                await fetchTwitchData();
+                initializeCharts();
             });
 
             return {
                 quickStats,
                 hypeGames,
                 newGames,
-                popularTags,
-                contentTrends,
+                highAudienceLowStreamersChart,
                 scheduleChart,
                 hypeGamesChart,
                 newGamesChart,
-                monetizationTimeChart,
-                monetizationCategoryChart,
                 onlineByCategoryChart,
                 watchTimeChart,
                 competitionChart,
+                monetizationTimeChart,
+                monetizationCategoryChart,
                 collaborationChart,
                 retentionChart,
-                demographicsChart
+                demographicsChart,
             };
         }
     }).mount('#app');
