@@ -37,14 +37,14 @@
                     </p>
                 </div>
 
-                <!-- Categorias com Alta Audiência e Poucos Streamers -->
+                <!-- Categorias com Mais Views e Menos Streamers -->
                 <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Categorias com Alta Audiência e Poucos Streamers</h2>
+                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Categorias com Mais Views e Menos Streamers</h2>
                     <div class="relative h-64">
-                        <canvas ref="highAudienceLowStreamersChart"></canvas>
+                        <canvas ref="highViewsLowStreamersChart"></canvas>
                     </div>
                     <div class="mt-4">
-                        <p class="text-gray-600">Categorias com alta audiência, mas poucos streamers ativos.</p>
+                        <p class="text-gray-600">Categorias com alta audiência e poucos streamers ativos.</p>
                     </div>
                 </div>
 
@@ -203,7 +203,7 @@
             const TWITCH_AUTH_TOKEN = 'ujqugm0jg9rfesg80w0g617zit55lr'; // Substituído pelo Token de Autenticação fornecido
 
             // Referências para os gráficos
-            const highAudienceLowStreamersChart = ref(null);
+            const highViewsLowStreamersChart = ref(null);
             const scheduleChart = ref(null);
             const hypeGamesChart = ref(null);
             const newGamesChart = ref(null);
@@ -281,27 +281,25 @@
                 }
             };
 
-            // Função para filtrar categorias com alta audiência e poucos streamers
-            const findHighAudienceLowStreamers = (categories) => {
-                const thresholdViewers = 40000; // Audiência mínima para ser considerada "alta"
-                const thresholdStreamers = 300; // Número máximo de streamers para ser considerado "poucos"
-
-                return categories.filter(category => 
-                    category.viewers >= thresholdViewers && category.streamers <= thresholdStreamers
-                );
+            // Função para filtrar categorias com mais views e menos streamers
+            const findHighViewsLowStreamers = (categories) => {
+                // Ordenar categorias por views (decrescente) e streamers (crescente)
+                return categories
+                    .sort((a, b) => b.viewers - a.viewers || a.streamers - b.streamers)
+                    .slice(0, 10); // Pegar as top 10 categorias
             };
 
             // Inicializar gráficos
             const initializeCharts = () => {
-                const filteredCategories = findHighAudienceLowStreamers(categoriesData.value);
+                const filteredCategories = findHighViewsLowStreamers(categoriesData.value);
 
-                // Gráfico de categorias com alta audiência e poucos streamers
-                new Chart(highAudienceLowStreamersChart.value.getContext('2d'), {
+                // Gráfico de categorias com mais views e menos streamers
+                new Chart(highViewsLowStreamersChart.value.getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: filteredCategories.map(category => category.name),
                         datasets: [{
-                            label: 'Audiência',
+                            label: 'Audiência (Views)',
                             data: filteredCategories.map(category => category.viewers),
                             backgroundColor: '#7C3AED',
                         },
@@ -344,7 +342,7 @@
                 quickStats,
                 hypeGames,
                 newGames,
-                highAudienceLowStreamersChart,
+                highViewsLowStreamersChart,
                 scheduleChart,
                 hypeGamesChart,
                 newGamesChart,
