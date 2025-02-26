@@ -47,149 +47,6 @@
                         <p class="text-gray-600">Categorias com alta audiência e poucos streamers ativos.</p>
                     </div>
                 </div>
-
-                <!-- Melhores Horários para Transmissão -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 md:col-span-2 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Melhores Horários para Transmissão</h2>
-                    <div class="relative h-64">
-                        <canvas ref="scheduleChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Horários com maior audiência no Brasil (BRT).</p>
-                    </div>
-                </div>
-
-                <!-- Jogos em Alta (Hype) -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Jogos em Alta no Brasil</h2>
-                    <div class="relative h-64">
-                        <canvas ref="hypeGamesChart"></canvas>
-                    </div>
-                    <div class="mt-4 space-y-4">
-                        <ul class="space-y-2">
-                            <li v-for="game in hypeGames" :key="game.name" class="flex justify-between">
-                                <div class="flex flex-col">
-                                    <span class="text-gray-300">{{ game.name }}</span>
-                                    <span class="text-sm text-gray-500">Lançado em {{ game.date }}</span>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-purple-400 font-semibold block">{{ game.viewers }} viewers</span>
-                                    <span class="text-sm text-gray-500">Pico: {{ game.peakViewers }}</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Jogos Novos com Crescimento em Views -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Jogos Novos com Crescimento em Views</h2>
-                    <div class="relative h-64">
-                        <canvas ref="newGamesChart"></canvas>
-                    </div>
-                    <div class="mt-4 space-y-4">
-                        <ul class="space-y-2">
-                            <li v-for="game in newGames" :key="game.name" class="flex justify-between">
-                                <div class="flex flex-col">
-                                    <span class="text-gray-300">{{ game.name }}</span>
-                                    <span class="text-sm text-gray-500">Lançamento: {{ game.releaseDate }}</span>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-purple-400 font-semibold block">{{ game.growth }}% de crescimento</span>
-                                    <span class="text-sm text-gray-500">{{ game.viewers }} viewers atuais</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Streamers Online por Categoria e Horário -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Streamers Online por Categoria e Horário</h2>
-                    <div class="relative h-64">
-                        <canvas ref="onlineByCategoryChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Número de streamers ativos por categoria em diferentes horários.</p>
-                    </div>
-                </div>
-
-                <!-- Média de Horas Assistidas por Horário -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Média de Horas Assistidas por Horário</h2>
-                    <div class="relative h-64">
-                        <canvas ref="watchTimeChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Média de horas que os espectadores passam assistindo streams por horário.</p>
-                    </div>
-                </div>
-
-                <!-- Análise de Concorrência -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Cenário Competitivo</h2>
-                    <div class="relative h-64">
-                        <canvas ref="competitionChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Número de streamers ativos por jogo no Brasil.</p>
-                    </div>
-                </div>
-
-                <!-- Monetização por Horário -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Monetização por Horário</h2>
-                    <div class="relative h-64">
-                        <canvas ref="monetizationTimeChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Análise de ganhos por horário de transmissão.</p>
-                    </div>
-                </div>
-
-                <!-- Monetização por Categoria -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Monetização por Categoria</h2>
-                    <div class="relative h-64">
-                        <canvas ref="monetizationCategoryChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Análise de ganhos por categoria de conteúdo.</p>
-                    </div>
-                </div>
-
-                <!-- Colaborações vs. Audiência -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Impacto de Colaborações</h2>
-                    <div class="relative h-64">
-                        <canvas ref="collaborationChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Análise do crescimento de audiência e seguidores após colaborações.</p>
-                    </div>
-                </div>
-
-                <!-- Duração vs. Retenção -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Retenção por Duração de Stream</h2>
-                    <div class="relative h-64">
-                        <canvas ref="retentionChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Relação entre duração das streams e retenção de espectadores.</p>
-                    </div>
-                </div>
-
-                <!-- Demografia vs. Conteúdo -->
-                <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-xl shadow-xl p-8 lg:col-span-3 border border-purple-500/20 backdrop-blur-sm hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Demografia e Preferências de Conteúdo</h2>
-                    <div class="relative h-64">
-                        <canvas ref="demographicsChart"></canvas>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-gray-600">Análise demográfica dos espectadores por tipo de conteúdo.</p>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
@@ -203,6 +60,17 @@
             const TWITCH_CLIENT_ID = 'ujqugm0jg9rfesg80w0g617zit55lr'; // Seu Client ID
             const TWITCH_CLIENT_SECRET = 'tuoyv6mbk7fijc5q4maerbkerexdaf'; // Seu Client Secret
             const TWITCH_AUTH_TOKEN = ref(null); // Token de autenticação será gerado dinamicamente
+
+            // Referências para os gráficos
+            const highViewsLowStreamersChart = ref(null);
+
+            // Dados das categorias
+            const categoriesData = ref([]);
+            const quickStats = ref([
+                { label: 'Streamers Ativos', value: '12K', trend: 8 },
+                { label: 'Audiência Total', value: '450K', trend: 12 },
+                { label: 'Jogos Populares', value: '25', trend: 5 }
+            ]);
 
             // Função para gerar o token de autenticação
             const generateAuthToken = async () => {
@@ -219,7 +87,11 @@
                         }),
                     });
                     const data = await response.json();
-                    TWITCH_AUTH_TOKEN.value = data.access_token; // Armazena o token gerado
+                    if (data.access_token) {
+                        TWITCH_AUTH_TOKEN.value = data.access_token; // Armazena o token gerado
+                    } else {
+                        console.error('Erro ao gerar token: Resposta inválida da API.');
+                    }
                 } catch (error) {
                     console.error('Erro ao gerar token de autenticação:', error);
                 }
@@ -227,6 +99,11 @@
 
             // Função para buscar dados da API da Twitch
             const fetchTwitchData = async () => {
+                if (!TWITCH_AUTH_TOKEN.value) {
+                    console.error('Token de autenticação não está disponível.');
+                    return;
+                }
+
                 try {
                     const headers = {
                         'Client-ID': TWITCH_CLIENT_ID,
@@ -235,7 +112,14 @@
 
                     // Buscar streams ativos no Brasil
                     const streamsResponse = await fetch('https://api.twitch.tv/helix/streams?language=pt&first=100', { headers });
+                    if (!streamsResponse.ok) {
+                        throw new Error(`Erro na requisição: ${streamsResponse.statusText}`);
+                    }
+
                     const streamsData = await streamsResponse.json();
+                    if (!streamsData.data) {
+                        throw new Error('Dados inválidos retornados pela API.');
+                    }
 
                     // Agrupar dados por categoria
                     const categories = streamsData.data.reduce((acc, stream) => {
@@ -254,27 +138,6 @@
 
                     // Converter para array
                     categoriesData.value = Object.values(categories);
-
-                    // Preencher dados de jogos em alta e novos jogos
-                    hypeGames.value = Object.values(categories)
-                        .sort((a, b) => b.viewers - a.viewers)
-                        .slice(0, 5)
-                        .map(category => ({
-                            name: category.name,
-                            viewers: `${Math.round(category.viewers / 1000)}K`,
-                            date: '2024-02-15', // Substitua por dados reais
-                            peakViewers: `${Math.round(category.viewers * 1.5 / 1000)}K`,
-                        }));
-
-                    newGames.value = Object.values(categories)
-                        .sort((a, b) => b.viewers - a.viewers)
-                        .slice(5, 10)
-                        .map(category => ({
-                            name: category.name,
-                            growth: Math.round((category.viewers / 1000) * 10),
-                            releaseDate: '2024-01-01', // Substitua por dados reais
-                            viewers: `${Math.round(category.viewers / 1000)}K`,
-                        }));
                 } catch (error) {
                     console.error('Erro ao buscar dados da Twitch:', error);
                 }
@@ -282,6 +145,11 @@
 
             // Função para filtrar categorias com mais views e menos streamers
             const findHighViewsLowStreamers = (categories) => {
+                if (!categories || categories.length === 0) {
+                    console.error('Nenhuma categoria disponível para filtrar.');
+                    return [];
+                }
+
                 // Ordenar categorias por views (decrescente) e streamers (crescente)
                 return categories
                     .sort((a, b) => b.viewers - a.viewers || a.streamers - b.streamers)
@@ -292,8 +160,19 @@
             const initializeCharts = () => {
                 const filteredCategories = findHighViewsLowStreamers(categoriesData.value);
 
+                if (filteredCategories.length === 0) {
+                    console.error('Nenhuma categoria filtrada para exibir no gráfico.');
+                    return;
+                }
+
                 // Gráfico de categorias com mais views e menos streamers
-                new Chart(highViewsLowStreamersChart.value.getContext('2d'), {
+                const ctx = highViewsLowStreamersChart.value.getContext('2d');
+                if (!ctx) {
+                    console.error('Contexto do gráfico não encontrado.');
+                    return;
+                }
+
+                new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: filteredCategories.map(category => category.name),
@@ -327,8 +206,6 @@
                         }
                     }
                 });
-
-                // Inicializar outros gráficos aqui...
             };
 
             // Carregar dados e inicializar gráficos ao montar o componente
@@ -339,25 +216,8 @@
             });
 
             return {
-                quickStats: ref([
-                    { label: 'Streamers Ativos', value: '12K', trend: 8 },
-                    { label: 'Audiência Total', value: '450K', trend: 12 },
-                    { label: 'Jogos Populares', value: '25', trend: 5 }
-                ]),
-                hypeGames,
-                newGames,
+                quickStats,
                 highViewsLowStreamersChart,
-                scheduleChart,
-                hypeGamesChart,
-                newGamesChart,
-                onlineByCategoryChart,
-                watchTimeChart,
-                competitionChart,
-                monetizationTimeChart,
-                monetizationCategoryChart,
-                collaborationChart,
-                retentionChart,
-                demographicsChart,
             };
         }
     }).mount('#app');
