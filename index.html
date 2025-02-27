@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StreamerStats Brasil - Estatísticas Gerais</title>
   <meta name="description" content="Plataforma de análise do cenário brasileiro da Twitch - Descubra os melhores horários, jogos populares e tendências para crescer na plataforma">
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Favicon (Data URL verificado) -->
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABR0lEQVQ4jZ2TvUoDQRSFv9ndhGQTNYkgaGMhiKKFhYU/hYiVYGsrvoGFT2DnM/gEYmcjgoWFhYVgYSGIGo0aE7Ob7K7FJrubGYNGDwwzc+/5zjn3zgz8s5TvQTqdVuPxeEjXdQxNw/M8PM/D931c18V1XQqFglwoFNhst9krlXgcj8e/FKSU+L6PpmmEQiE0TcNxHGq1GvV6/c1xnLxt28znczxPJlwlk1EhxLeiQghc10UIged5CCGwLItms0m73f7wPO9pNpvdyuVyD6urKyv+QiaTUaPRKMViEdd1aTQatFotTNOk1+sxHA7xfR9QKIQsy0/j8fhGKpXaVxQFkVxfQ9d1HVRRGI1GDwYBer4dt20gp8TwPwzAIBAKvhmGsm6b5LKSUStM0AoEAQggmkwmWZWFZFp7nIaVESkkwGERVVSzLOsxms7fAO/wRfQIoMqJu8Yx+2QAAAABJRU5ErkJggg==">
-  <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>
+  <!-- Vue.js - Versão de Produção -->
+  <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-900 text-gray-100">
@@ -105,7 +109,7 @@
         const hypeGames = ref([]);         // Top 5 categorias (jogos em alta)
         const newGames = ref([]);          // Próximas 5 categorias (exemplo: média de viewers)
 
-        // ======== Refs para os canvases dos gráficos (não alterados) ========
+        // ======== Refs para os canvases dos gráficos (mantidos inalterados) ========
         const highViewsLowStreamersChart = ref(null);
         const scheduleChart = ref(null);
         const hypeGamesChart = ref(null);
@@ -129,176 +133,4 @@
               throw new Error('Falha ao obter token.');
             }
           } catch (err) {
-            console.error('Erro na autenticação:', err);
-            error.value = 'Erro na autenticação com a Twitch.';
-          }
-        };
-
-        // ======== Função: Busca Streams Ativas ========
-        const fetchStreams = async () => {
-          if (!TWITCH_AUTH_TOKEN.value) {
-            error.value = 'Token de autenticação indisponível.';
-            return;
-          }
-          try {
-            const headers = {
-              'Client-ID': TWITCH_CLIENT_ID,
-              'Authorization': `Bearer ${TWITCH_AUTH_TOKEN.value}`
-            };
-            const response = await fetch('https://api.twitch.tv/helix/streams?language=pt&first=100', { headers });
-            if (!response.ok) throw new Error(`Erro: ${response.statusText}`);
-            const data = await response.json();
-            if (!data?.data) throw new Error('Resposta da API inválida.');
-            streamsData.value = data.data;
-          } catch (err) {
-            console.error('Erro ao buscar streams:', err);
-            error.value = 'Erro ao obter dados da Twitch.';
-          }
-        };
-
-        // ======== Função: Computa Agregados e Estatísticas ========
-        // Realiza uma única passagem para calcular:
-        // - Total de streamers e viewers
-        // - Agrupamento por categoria
-        // - Distribuição por horário
-        const computeAggregates = () => {
-          let totalStreamers = streamsData.value.length;
-          let totalViewers = 0;
-          const catMap = {};
-          const hourlyDistribution = new Array(24).fill(0);
-
-          streamsData.value.forEach(stream => {
-            totalViewers += stream.viewer_count;
-            const gameId = stream.game_id;
-            if (!catMap[gameId]) {
-              catMap[gameId] = { name: stream.game_name, viewers: 0, streamers: 0 };
-            }
-            catMap[gameId].viewers += stream.viewer_count;
-            catMap[gameId].streamers += 1;
-            // Processa o horário de início da stream
-            const start = new Date(stream.started_at);
-            const hour = start.getHours();
-            hourlyDistribution[hour]++;
-          });
-
-          categoriesData.value = Object.values(catMap);
-          quickStats.value = [
-            { label: 'Streamers Ativos', value: totalStreamers },
-            { label: 'Audiência Total', value: totalViewers },
-            { label: 'Jogos Populares', value: Object.keys(catMap).length }
-          ];
-          scheduleData.value = hourlyDistribution;
-        };
-
-        // ======== Função: Computa Estatísticas dos Jogos ========
-        const computeGameStats = () => {
-          const sortedCategories = [...categoriesData.value].sort((a, b) => b.viewers - a.viewers);
-          hypeGames.value = sortedCategories.slice(0, 5).map(cat => ({ name: cat.name, viewers: cat.viewers }));
-          // Exemplo: "Jogos novos" baseado na média de viewers por streamer
-          newGames.value = sortedCategories
-            .filter(cat => cat.streamers > 0)
-            .sort((a, b) => (b.viewers / b.streamers) - (a.viewers / a.streamers))
-            .slice(5, 10)
-            .map(cat => ({ name: cat.name, avgViewers: Math.round(cat.viewers / cat.streamers) }));
-        };
-
-        // ======== Função: Inicializa os Gráficos (Parte Gráfica Mantida Inalterada) ========
-        const initCharts = () => {
-          // Gráfico: Categorias com Mais Views e Menos Streamers
-          const filteredCats = [...categoriesData.value]
-            .sort((a, b) => b.viewers - a.viewers || a.streamers - b.streamers)
-            .slice(0, 10);
-          if (highViewsLowStreamersChart.value && filteredCats.length) {
-            const ctx1 = highViewsLowStreamersChart.value.getContext('2d');
-            new Chart(ctx1, {
-              type: 'bar',
-              data: {
-                labels: filteredCats.map(cat => cat.name),
-                datasets: [
-                  {
-                    label: 'Views',
-                    data: filteredCats.map(cat => cat.viewers),
-                    backgroundColor: '#7C3AED'
-                  },
-                  {
-                    label: 'Streamers',
-                    data: filteredCats.map(cat => cat.streamers),
-                    backgroundColor: '#60A5FA'
-                  }
-                ]
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-              }
-            });
-          }
-          // Gráfico: Melhores Horários para Transmissão
-          if (scheduleChart.value) {
-            const ctx2 = scheduleChart.value.getContext('2d');
-            new Chart(ctx2, {
-              type: 'line',
-              data: {
-                labels: Array.from({ length: 24 }, (_, i) => `${i}h`),
-                datasets: [{
-                  label: 'Streams por Horário',
-                  data: scheduleData.value,
-                  borderColor: '#34D399',
-                  fill: false
-                }]
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-              }
-            });
-          }
-          // Gráfico: Jogos em Alta (Pie Chart)
-          if (hypeGamesChart.value) {
-            const ctx3 = hypeGamesChart.value.getContext('2d');
-            new Chart(ctx3, {
-              type: 'pie',
-              data: {
-                labels: hypeGames.value.map(game => game.name),
-                datasets: [{
-                  data: hypeGames.value.map(game => game.viewers),
-                  backgroundColor: ['#F87171', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA']
-                }]
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-              }
-            });
-          }
-        };
-
-        // ======== Função Principal para Inicializar os Dados ========
-        const initializeData = async () => {
-          await generateAuthToken();
-          if (TWITCH_AUTH_TOKEN.value) {
-            await fetchStreams();
-            computeAggregates();
-            computeGameStats();
-            initCharts();
-          }
-          loading.value = false;
-        };
-
-        onMounted(async () => {
-          await initializeData();
-        });
-
-        return {
-          loading,
-          error,
-          quickStats,
-          highViewsLowStreamersChart,
-          scheduleChart,
-          hypeGamesChart
-        };
-      }
-    }).mount('#app');
-  </script>
-</body>
-</html>
+            c
