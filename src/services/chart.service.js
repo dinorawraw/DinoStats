@@ -41,12 +41,36 @@ const ChartService = {
   ],
 
   // Cria um gráfico de barras
-  createBarChart(ctx, labels, datasets, customOptions = {}) {
-    const options = { ...this.defaultOptions, ...customOptions };
-    return new Chart(ctx, {
+  createBarChart(canvas, labels, datasets) {
+    return new Chart(canvas, {
       type: 'bar',
-      data: { labels, datasets },
-      options
+      data: {
+        labels,
+        datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return new Intl.NumberFormat('pt-BR').format(value);
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Distribuição de Viewers e Streamers por Categoria'
+          }
+        }
+      }
     });
   },
 
@@ -107,3 +131,6 @@ const ChartService = {
     }
   }
 };
+
+// Torna o serviço disponível globalmente
+window.ChartService = ChartService;
