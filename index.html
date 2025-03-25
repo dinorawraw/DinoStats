@@ -9,6 +9,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' https: 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https: data:; font-src 'self' https: data:;">
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts - Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo...">
   <!-- Vue.js -->
@@ -16,7 +18,7 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-900 text-gray-100">
+<body class="bg-gray-900 text-gray-100 min-h-screen">
   <div id="app" class="min-h-screen">
     <!-- Navbar Component -->
     <nav-bar></nav-bar>
@@ -24,8 +26,11 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
       <!-- Loading/Error States -->
-      <div v-if="loading" class="text-center py-8">
-        <p>Carregando dados...</p>
+      <div v-if="loading" class="flex items-center justify-center min-h-[400px]">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <p class="text-gray-400">Carregando dados...</p>
+        </div>
       </div>
       <div v-else-if="error" class="text-center py-8 text-red-500">
         <p>{{ error }}</p>
