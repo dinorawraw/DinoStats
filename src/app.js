@@ -46,12 +46,6 @@ const app = createApp({
         );
       }
       
-      // Atualiza métricas de performance após renderização
-      MetricsService.updatePerformanceMetrics();
-      
-      // Atualiza métricas de qualidade
-      MetricsService.updateQualityMetrics(true, false);
-      
       // Atualiza referência das métricas
       metrics.value = MetricsService.generateReport();
     };
@@ -59,19 +53,13 @@ const app = createApp({
     // Inicialização
     onMounted(async () => {
       try {
-        const startTime = performance.now();
         streamsData.value = await TwitchAPI.getStreamData();
-        
-        // Registra tempo de resposta da API
-        MetricsService.performanceMetrics.apiResponseTime = performance.now() - startTime;
-        
         processData(streamsData.value);
         loading.value = false;
       } catch (err) {
         error.value = 'Erro ao carregar dados da Twitch.';
         loading.value = false;
         console.error(err);
-        MetricsService.updateQualityMetrics(false, true);
       }
     });
     

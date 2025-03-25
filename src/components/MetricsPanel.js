@@ -1,38 +1,15 @@
 const MetricsPanel = {
   template: `
     <div class="bg-gray-800 rounded-lg p-4 shadow-lg">
-      <h3 class="text-xl font-bold mb-4">Métricas de Desempenho</h3>
+      <h3 class="text-xl font-bold mb-4">Métricas de Streams</h3>
       
-      <!-- Performance -->
+      <!-- Métricas de Streams -->
       <div class="mb-6">
-        <h4 class="text-lg font-semibold mb-2">Performance</h4>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Tempo de Carregamento</p>
-            <p class="text-lg">{{ formatTime(metrics?.performance?.loadTime) }}</p>
-          </div>
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Tempo de Resposta API</p>
-            <p class="text-lg">{{ formatTime(metrics?.performance?.apiResponseTime) }}</p>
-          </div>
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Uso de Memória</p>
-            <p class="text-lg">{{ formatMemory(metrics?.performance?.memoryUsage) }}</p>
-          </div>
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">FPS</p>
-            <p class="text-lg">{{ metrics?.performance?.frameRate }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dados -->
-      <div class="mb-6">
-        <h4 class="text-lg font-semibold mb-2">Dados</h4>
+        <h4 class="text-lg font-semibold mb-2">Estatísticas Gerais</h4>
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-gray-700 p-3 rounded">
             <p class="text-sm text-gray-400">Total de Streams</p>
-            <p class="text-lg">{{ metrics?.data?.totalStreams }}</p>
+            <p class="text-lg">{{ formatNumber(metrics?.data?.totalStreams) }}</p>
           </div>
           <div class="bg-gray-700 p-3 rounded">
             <p class="text-sm text-gray-400">Total de Viewers</p>
@@ -42,24 +19,27 @@ const MetricsPanel = {
             <p class="text-sm text-gray-400">Média de Viewers</p>
             <p class="text-lg">{{ formatNumber(metrics?.data?.averageViewers) }}</p>
           </div>
+          <div class="bg-gray-700 p-3 rounded">
+            <p class="text-sm text-gray-400">Streams Ativas</p>
+            <p class="text-lg">{{ formatNumber(metrics?.data?.activeStreams) }}</p>
+          </div>
         </div>
       </div>
 
-      <!-- Qualidade -->
+      <!-- Top Categorias -->
       <div class="mb-6">
-        <h4 class="text-lg font-semibold mb-2">Qualidade</h4>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Taxa de Sucesso</p>
-            <p class="text-lg">{{ metrics?.quality?.successRate }}</p>
-          </div>
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Taxa de Erro</p>
-            <p class="text-lg">{{ metrics?.quality?.errorRate }}</p>
-          </div>
-          <div class="bg-gray-700 p-3 rounded">
-            <p class="text-sm text-gray-400">Tentativas de Retry</p>
-            <p class="text-lg">{{ metrics?.quality?.retryCount }}</p>
+        <h4 class="text-lg font-semibold mb-2">Top Categorias</h4>
+        <div class="space-y-2">
+          <div v-for="(category, index) in metrics?.data?.topCategories.slice(0, 5)" 
+               :key="index" 
+               class="bg-gray-700 p-3 rounded">
+            <div class="flex justify-between items-center">
+              <span class="font-medium">{{ category.name }}</span>
+              <span class="text-sm text-gray-400">{{ formatNumber(category.viewers) }} viewers</span>
+            </div>
+            <div class="mt-1 text-sm text-gray-400">
+              {{ formatNumber(category.streamers) }} streamers ativos
+            </div>
           </div>
         </div>
       </div>
@@ -82,16 +62,6 @@ const MetricsPanel = {
   },
 
   methods: {
-    formatTime(ms) {
-      if (!ms) return '0ms';
-      return `${Math.round(ms)}ms`;
-    },
-
-    formatMemory(mb) {
-      if (!mb) return '0MB';
-      return `${Math.round(mb)}MB`;
-    },
-
     formatNumber(num) {
       if (!num) return '0';
       return new Intl.NumberFormat('pt-BR').format(Math.round(num));
