@@ -149,4 +149,5 @@ const MetricsService = {
   }
 };
 
-export default MetricsService; 
+// Torna o serviço disponível globalmente
+window.MetricsService = MetricsService; 

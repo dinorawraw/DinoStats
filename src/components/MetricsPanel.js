@@ -103,4 +103,5 @@ const MetricsPanel = {
   }
 };
 
-export default MetricsPanel; 
+// Torna o componente disponível globalmente
+window.MetricsPanel = MetricsPanel; 

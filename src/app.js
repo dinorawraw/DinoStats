@@ -95,6 +95,7 @@ const app = createApp({
 app.component('nav-bar', NavBar);
 app.component('stats-card', StatsCard);
 app.component('chart-card', ChartCard);
+app.component('metrics-panel', MetricsPanel);
 
 // Monta a aplicação
 app.mount('#app');
