@@ -8,9 +8,16 @@ const app = createApp({
     const streamsData = ref([]);
     const quickStats = ref([]);
     const highViewsLowStreamersChart = ref(null);
+    const metrics = ref(null);
     
     // Processa os dados da API
     const processData = (streams) => {
+      // Inicializa métricas
+      MetricsService.initialize();
+      
+      // Atualiza métricas de dados
+      MetricsService.updateDataMetrics(streams);
+      
       // Calcula estatísticas rápidas
       quickStats.value = Helpers.calculateQuickStats(streams);
       
@@ -39,27 +46,47 @@ const app = createApp({
         );
       }
       
-      // Outros gráficos podem ser inicializados aqui...
+      // Atualiza métricas de performance após renderização
+      MetricsService.updatePerformanceMetrics();
+      
+      // Atualiza métricas de qualidade
+      MetricsService.updateQualityMetrics(true, false);
+      
+      // Atualiza referência das métricas
+      metrics.value = MetricsService.generateReport();
     };
     
     // Inicialização
     onMounted(async () => {
       try {
+        const startTime = performance.now();
         streamsData.value = await TwitchAPI.getStreamData();
+        
+        // Registra tempo de resposta da API
+        MetricsService.performanceMetrics.apiResponseTime = performance.now() - startTime;
+        
         processData(streamsData.value);
         loading.value = false;
       } catch (err) {
         error.value = 'Erro ao carregar dados da Twitch.';
         loading.value = false;
         console.error(err);
+        MetricsService.updateQualityMetrics(false, true);
       }
     });
+    
+    // Função para exportar métricas
+    const exportMetrics = () => {
+      MetricsService.exportMetrics();
+    };
     
     return {
       loading,
       error,
       quickStats,
-      highViewsLowStreamersChart
+      highViewsLowStreamersChart,
+      metrics,
+      exportMetrics
     };
   }
 });

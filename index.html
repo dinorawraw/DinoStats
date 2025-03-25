@@ -34,6 +34,12 @@
         <!-- Quick Stats -->
         <stats-card :stats="quickStats"></stats-card>
         
+        <!-- Métricas de Desempenho -->
+        <metrics-panel 
+          :metrics="metrics"
+          @export-metrics="exportMetrics"
+        ></metrics-panel>
+        
         <!-- Chart Components -->
         <chart-card 
           title="Categorias com Mais Views e Menos Streamers"
@@ -41,8 +47,6 @@
           :chart-ref="highViewsLowStreamersChart"
           cols="lg:col-span-3"
         ></chart-card>
-        
-        <!-- Outros componentes de gráfico... -->
       </div>
     </main>
   </div>
@@ -51,8 +55,10 @@
   <script src="./src/components/NavBar.js"></script>
   <script src="./src/components/StatsCard.js"></script>
   <script src="./src/components/ChartCard.js"></script>
+  <script src="./src/components/MetricsPanel.js"></script>
   <script src="./src/services/twitch.api.js"></script>
   <script src="./src/services/chart.service.js"></script>
+  <script src="./src/services/metrics.service.js"></script>
   <script src="./src/app.js"></script>
 </body>
 </html>
