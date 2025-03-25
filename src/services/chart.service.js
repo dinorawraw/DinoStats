@@ -44,13 +44,9 @@ const ChartService = {
   createBarChart(canvas, labels, datasets) {
     return new Chart(canvas, {
       type: 'bar',
-      data: {
-        labels,
-        datasets
-      },
+      data: { labels, datasets },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        ...this.defaultOptions,
         scales: {
           y: {
             beginAtZero: true,
@@ -59,15 +55,6 @@ const ChartService = {
                 return new Intl.NumberFormat('pt-BR').format(value);
               }
             }
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Distribuição de Viewers e Streamers por Categoria'
           }
         }
       }
@@ -113,6 +100,98 @@ const ChartService = {
         }]
       },
       options
+    });
+  },
+
+  // Cria um gráfico de linha para distribuição por hora
+  createHourlyDistributionChart(canvas, hourlyData) {
+    const labels = hourlyData.map(data => `${data.hour}:00`);
+    
+    return new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Streamers Ativos',
+            data: hourlyData.map(data => data.activeStreamers),
+            borderColor: '#7C3AED',
+            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Média de Viewers',
+            data: hourlyData.map(data => data.averageViewers),
+            borderColor: '#60A5FA',
+            backgroundColor: 'rgba(96, 165, 250, 0.1)',
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        ...this.defaultOptions,
+        plugins: {
+          ...this.defaultOptions.plugins,
+          title: {
+            display: true,
+            text: 'Distribuição de Streamers e Viewers por Hora'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return new Intl.NumberFormat('pt-BR').format(value);
+              }
+            }
+          }
+        }
+      }
+    });
+  },
+
+  // Cria um gráfico de dispersão de viewers
+  createViewerDispersionChart(canvas, dispersionData) {
+    const labels = dispersionData.map(data => `${data.hour}:00`);
+    
+    return new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Dispersão de Viewers',
+            data: dispersionData.map(data => data.dispersion),
+            borderColor: '#F87171',
+            backgroundColor: 'rgba(248, 113, 113, 0.1)',
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        ...this.defaultOptions,
+        plugins: {
+          ...this.defaultOptions.plugins,
+          title: {
+            display: true,
+            text: 'Dispersão de Viewers por Hora'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return new Intl.NumberFormat('pt-BR').format(value);
+              }
+            }
+          }
+        }
+      }
     });
   },
 

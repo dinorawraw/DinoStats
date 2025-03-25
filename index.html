@@ -32,7 +32,7 @@
       </div>
       
       <!-- Dashboard Grid -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div v-else class="space-y-8">
         <!-- Quick Stats -->
         <stats-card :stats="quickStats"></stats-card>
         
@@ -42,13 +42,32 @@
           @export-metrics="exportMetrics"
         ></metrics-panel>
         
-        <!-- Chart Components -->
-        <chart-card 
-          title="Categorias com Mais Views e Menos Streamers"
-          description="Categorias com alta audiência e poucos streamers ativos."
-          :chart-ref="highViewsLowStreamersChart"
-          cols="lg:col-span-3"
-        ></chart-card>
+        <!-- Gráficos -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Gráfico de Categorias -->
+          <chart-card 
+            title="Categorias com Mais Views e Menos Streamers"
+            description="Categorias com alta audiência e poucos streamers ativos."
+            :chart-ref="highViewsLowStreamersChart"
+            class="h-[400px]"
+          ></chart-card>
+
+          <!-- Gráfico de Distribuição por Hora -->
+          <chart-card 
+            title="Distribuição por Hora"
+            description="Número de streamers ativos e média de viewers por hora."
+            :chart-ref="hourlyDistributionChart"
+            class="h-[400px]"
+          ></chart-card>
+
+          <!-- Gráfico de Dispersão de Viewers -->
+          <chart-card 
+            title="Dispersão de Viewers"
+            description="Distribuição da audiência por hora do dia."
+            :chart-ref="viewerDispersionChart"
+            class="h-[400px]"
+          ></chart-card>
+        </div>
       </div>
     </main>
   </div>

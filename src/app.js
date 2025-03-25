@@ -8,6 +8,8 @@ const app = createApp({
     const streamsData = ref([]);
     const quickStats = ref([]);
     const highViewsLowStreamersChart = ref(null);
+    const hourlyDistributionChart = ref(null);
+    const viewerDispersionChart = ref(null);
     const metrics = ref(null);
     
     // Processa os dados da API
@@ -45,6 +47,22 @@ const app = createApp({
           chartData.datasets
         );
       }
+
+      // Inicializa gráfico de distribuição por hora
+      if (hourlyDistributionChart.value) {
+        ChartService.createHourlyDistributionChart(
+          hourlyDistributionChart.value.getContext('2d'),
+          metrics.value.data.timeMetrics.hourlyDistribution
+        );
+      }
+
+      // Inicializa gráfico de dispersão de viewers
+      if (viewerDispersionChart.value) {
+        ChartService.createViewerDispersionChart(
+          viewerDispersionChart.value.getContext('2d'),
+          metrics.value.data.timeMetrics.viewerDispersion
+        );
+      }
       
       // Atualiza referência das métricas
       metrics.value = MetricsService.generateReport();
@@ -73,6 +91,8 @@ const app = createApp({
       error,
       quickStats,
       highViewsLowStreamersChart,
+      hourlyDistributionChart,
+      viewerDispersionChart,
       metrics,
       exportMetrics
     };
