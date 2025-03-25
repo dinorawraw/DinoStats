@@ -1,31 +1,57 @@
-// Importa os componentes (no navegador, isso seria feito via script tags)
+// app.js atualizado
 const { createApp, ref, onMounted } = Vue;
 
-// Cria a aplicação Vue
 const app = createApp({
   setup() {
     const loading = ref(true);
     const error = ref('');
     const streamsData = ref([]);
     const quickStats = ref([]);
-    
-    // Refs para os gráficos
     const highViewsLowStreamersChart = ref(null);
     
-    // Funções para processar dados
-    const computeAggregates = () => {
-      // Implementação similar à original
+    // Processa os dados da API
+    const processData = (streams) => {
+      // Calcula estatísticas rápidas
+      quickStats.value = Helpers.calculateQuickStats(streams);
+      
+      // Processa categorias
+      const categories = {};
+      streams.forEach(stream => {
+        const gameId = stream.game_id;
+        if (!categories[gameId]) {
+          categories[gameId] = {
+            name: stream.game_name,
+            viewers: 0,
+            streamers: 0
+          };
+        }
+        categories[gameId].viewers += stream.viewer_count;
+        categories[gameId].streamers += 1;
+      });
+      
+      // Inicializa gráficos
+      if (highViewsLowStreamersChart.value) {
+        const chartData = Helpers.processHighViewsLowStreamers(categories);
+        ChartService.createBarChart(
+          highViewsLowStreamersChart.value.getContext('2d'),
+          chartData.labels,
+          chartData.datasets
+        );
+      }
+      
+      // Outros gráficos podem ser inicializados aqui...
     };
     
     // Inicialização
     onMounted(async () => {
       try {
         streamsData.value = await TwitchAPI.getStreamData();
-        computeAggregates();
+        processData(streamsData.value);
         loading.value = false;
       } catch (err) {
         error.value = 'Erro ao carregar dados da Twitch.';
         loading.value = false;
+        console.error(err);
       }
     });
     
@@ -38,7 +64,7 @@ const app = createApp({
   }
 });
 
-// Registra os componentes
+// Registra componentes
 app.component('nav-bar', NavBar);
 app.component('stats-card', StatsCard);
 app.component('chart-card', ChartCard);
